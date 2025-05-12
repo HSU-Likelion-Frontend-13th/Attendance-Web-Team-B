@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./LoginForm.style";
 
 export default function LoginForm() {
@@ -14,12 +14,18 @@ export default function LoginForm() {
         const isValidName = USER_REGEX.test(name);
 
         if (!isValidName) {
-            const newErrors = {};
-            if (!isValidName) newErrors.name = "한글만 입력 가능합니다.";
-            setErrors(newErrors);
+            setErrors({ name: "한글만 입력 가능합니다." });
+        } else {
+            setErrors({});
         return;
         }
     }
+
+    useEffect(() => {
+        if (USER_REGEX.test(name)) {
+            setErrors((prev) => ({ ...prev, name: undefined }));
+        }
+    }, [name]);
 
     return (
         <S.LoginLayout>
@@ -31,6 +37,7 @@ export default function LoginForm() {
                     placeholder = "한글만 입력 가능합니다."
                     value = { name }
                     onChange = { (e) => setName(e.target.value) }
+                    isValid = { USER_REGEX.test(name) }
                 />
                 { errors.name ? <S.ErrorText>{ errors.name }</S.ErrorText> : null}
                 <S.Button type = "submit">로그인</S.Button>

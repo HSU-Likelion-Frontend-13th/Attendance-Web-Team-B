@@ -29,10 +29,16 @@ export const LoginBox = styled.form`
 
 export const Input = styled.input`
     padding: 12px;
-    border: 1px solid #ccc;
+    border: 1px solid ${ (props) => (
+        props.isValid ? 'blue' : props.isValid === false ? 'red' : '#ccc'
+    )};
     border-radius: 6px;
     margin-bottom: 10px;
     font-size: 14px;
+
+    background-color: ${ (props) => (
+        props.isValid ? '#e0f1ff' : props.isValid === false ? '#ffdada' : '#ccc'
+    )};
 `;
 
 export const Button = styled.button`
@@ -51,8 +57,8 @@ export const Button = styled.button`
 `;
 
 export const ErrorText = styled.div`
-  color: red;
-  font-size: 12px;
-  margin-top: -8px;
-  margin-bottom: 12px;
+    color: red;
+    font-size: 12px;
+    margin-top: -8px;
+    margin-bottom: 12px;
 `;
