@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import * as S from "./LoginForm.style";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
     const [name, setName] = useState('');
@@ -9,6 +10,8 @@ export default function LoginForm() {
     
     const USER_REGEX = /^[가-힣]+$/;
     const ID_REGEX = /^\d{7}$/;
+
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,6 +26,7 @@ export default function LoginForm() {
             });        
         } else {
             setErrors({});
+            navigate("/attendance");
         return;
         }
     }
