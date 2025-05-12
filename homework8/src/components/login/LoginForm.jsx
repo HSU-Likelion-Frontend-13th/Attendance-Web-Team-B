@@ -5,6 +5,7 @@ export default function LoginForm() {
     const [name, setName] = useState('');
     const [id, setId] = useState('');
     const [errors, setErrors] = useState({});
+    const [isSignUp, setIsSignUp] = useState(false);
     
     const USER_REGEX = /^[가-힣]+$/;
     const ID_REGEX = /^\d{7}$/;
@@ -41,8 +42,9 @@ export default function LoginForm() {
     return (
         <S.LoginLayout>
             <S.LoginBox onSubmit = { handleSubmit }>
-                <S.Title>로그인</S.Title>
+                <S.Title>{ isSignUp ? "회원가입" : "로그인" }</S.Title>
 
+                <S.InputWrapper>
                 <S.Label>이름</S.Label>
                 <S.Input
                     type = "text"
@@ -52,7 +54,9 @@ export default function LoginForm() {
                     isValid = { USER_REGEX.test(name) }
                 />
                 { errors.name ? <S.ErrorText>{ errors.name }</S.ErrorText> : null}
+                </S.InputWrapper>
 
+                <S.InputWrapper>
                 <S.Label>학번</S.Label>
                 <S.Input
                     type = "text"
@@ -62,8 +66,26 @@ export default function LoginForm() {
                     isValid = { ID_REGEX.test(id) }
                 />
                 { errors.id ? <S.ErrorText>{ errors.id }</S.ErrorText> : null}
-
-                <S.Button type = "submit">로그인</S.Button>
+                </S.InputWrapper>
+                
+                <S.Button type = "submit">{ isSignUp ? "회원가입" : "로그인" }</S.Button>
+                { !isSignUp ? (
+                    <S.Button 
+                        type = "button" 
+                        onClick = { () => setIsSignUp(true) } 
+                        isSecondary
+                    >
+                    회원가입
+                    </S.Button>
+                ) : (
+                    <S.Button 
+                        type = "button" 
+                        onClick = { () => setIsSignUp(false) } 
+                        isSecondary
+                    >
+                    로그인
+                    </S.Button>
+                )}
             </S.LoginBox>
         </S.LoginLayout>
     );
