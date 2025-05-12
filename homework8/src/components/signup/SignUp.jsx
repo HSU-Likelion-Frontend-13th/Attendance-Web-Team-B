@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import * as S from "./LoginForm.style";
+import * as S from "../login/LoginForm.style";
 import { useNavigate } from "react-router-dom";
 
-export default function LoginForm() {
+export default function SignUpForm() {
     const [name, setName] = useState('');
     const [id, setId] = useState('');
     const [errors, setErrors] = useState({});
@@ -22,10 +22,11 @@ export default function LoginForm() {
             setErrors({
                 name: !isValidName ? "한글만 입력 가능합니다." : undefined,
                 id: !isValidId ? "7자리 숫자만 입력 가능합니다." : undefined,
-            });        
+            });
         } else {
             setErrors({});
-            navigate("/attendance");
+            // Handle sign-up logic (e.g., saving data or redirecting)
+            navigate("/login"); // Redirect to login after successful signup
         }
     }
 
@@ -44,7 +45,7 @@ export default function LoginForm() {
     return (
         <S.LoginLayout>
             <S.LoginBox onSubmit={handleSubmit}>
-                <S.Title>로그인</S.Title>
+                <S.Title>회원가입</S.Title>
 
                 <S.InputWrapper>
                     <S.Label>이름</S.Label>
@@ -70,14 +71,14 @@ export default function LoginForm() {
                     {errors.id && <S.ErrorText>{errors.id}</S.ErrorText>}
                 </S.InputWrapper>
 
-                <S.Button type="submit">로그인</S.Button>
+                <S.Button type="submit">회원가입</S.Button>
 
                 <S.Button
                     type="button"
-                    onClick={() => navigate("/signup")}
+                    onClick={() => navigate("/login")}
                     isSecondary
                 >
-                    회원가입
+                    로그인
                 </S.Button>
             </S.LoginBox>
         </S.LoginLayout>
