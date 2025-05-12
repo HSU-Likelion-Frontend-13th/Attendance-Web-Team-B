@@ -32,6 +32,7 @@ export default function LoginForm() {
                     value = { name }
                     onChange = { (e) => setName(e.target.value) }
                 />
+                { errors.name ? <S.ErrorText>{ errors.name }</S.ErrorText> : null}
                 <S.Button type = "submit">로그인</S.Button>
             </S.LoginBox>
         </S.LoginLayout>

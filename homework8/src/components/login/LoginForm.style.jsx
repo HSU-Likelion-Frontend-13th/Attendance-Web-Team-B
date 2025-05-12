@@ -49,3 +49,10 @@ export const Button = styled.button`
     background-color: #001f70;
     }
 `;
+
+export const ErrorText = styled.div`
+  color: red;
+  font-size: 12px;
+  margin-top: -8px;
+  margin-bottom: 12px;
+`;
