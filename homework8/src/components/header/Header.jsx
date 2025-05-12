@@ -1,5 +1,5 @@
 import * as S from "./Header.style";
-import LOGO from "../../assets/logo.png"
+import LOGO from "../../assets/likelion.svg"
 
 export default function Header() {
     return (
