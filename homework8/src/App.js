@@ -1,21 +1,20 @@
 import React from "react";
 import Header from "./components/header/Header";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginForm from "./components/login/LoginForm";
-import SignUp from "./components/signup/SignUpForm";
-import Attendance from "./components/attendance/Attendance"
 import GlobalStyle from "./styles/GlobalStyle";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import AttendancePage from "./pages/AttendancePage";
 
 function App() {
   return (
     <Router>
       <GlobalStyle />
-      <Header />
       <Routes>
-        <Route path = "/" element = { <LoginForm /> } />
-        <Route path = "/login" element = { <LoginForm /> } />
-        <Route path = "/signup" element = { <SignUp /> } />
-        <Route path = "/attendance" element = { <Attendance /> } />
+        <Route path = "/" element = { <LoginPage /> } />
+        <Route path = "/login" element = { <LoginPage /> } />
+        <Route path = "/signup" element = { <SignUpPage /> } />
+        <Route path = "/attendance" element = { <AttendancePage /> } />
       </Routes>
     </Router>
   );
