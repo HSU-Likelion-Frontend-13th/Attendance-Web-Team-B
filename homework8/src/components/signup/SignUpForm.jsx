@@ -7,6 +7,11 @@ export default function SignUpForm() {
     const [id, setId] = useState('');
     const [errors, setErrors] = useState({});
 
+    const [touched, setTouched] = useState({
+    name: false,
+    id: false,
+    });
+
     const USER_REGEX = /^[가-힣]+$/;
     const ID_REGEX = /^\d{7}$/;
 
@@ -25,8 +30,7 @@ export default function SignUpForm() {
             });
         } else {
             setErrors({});
-            // Handle sign-up logic (e.g., saving data or redirecting)
-            navigate("/login"); // Redirect to login after successful signup
+            navigate("/login");
         }
     }
 
@@ -54,7 +58,8 @@ export default function SignUpForm() {
                         placeholder="이름을 입력하세요."
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        isValid={USER_REGEX.test(name)}
+                        onBlur={() => setTouched((prev) => ({ ...prev, name: true }))}
+                        isValid={touched.name ? USER_REGEX.test(name) : undefined}
                     />
                     {errors.name && <S.ErrorText>{errors.name}</S.ErrorText>}
                 </S.InputWrapper>
@@ -66,8 +71,8 @@ export default function SignUpForm() {
                         placeholder="학번을 입력하세요."
                         value={id}
                         onChange={(e) => setId(e.target.value)}
-                        isValid={ID_REGEX.test(id)}
-                    />
+                        onBlur={() => setTouched((prev) => ({ ...prev, id: true }))}
+                        isValid={touched.id ? ID_REGEX.test(id) : undefined}                    />
                     {errors.id && <S.ErrorText>{errors.id}</S.ErrorText>}
                 </S.InputWrapper>
 

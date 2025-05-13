@@ -37,7 +37,7 @@ export const Input = styled.input`
     font-size: 1.1458vw;
 
     background-color: ${(props) =>
-        props.isValid ? '#e0f1ff' : props.isValid === false ? '#ffdada' : '#ccc'};
+        props.isValid ? '#e0f1ff' : props.isValid === false ? '#ffdada' : '#ffffff'};
 `;
 
 export const InputWrapper = styled.div`
