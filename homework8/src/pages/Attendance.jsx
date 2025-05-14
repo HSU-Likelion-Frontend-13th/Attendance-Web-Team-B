@@ -1,12 +1,15 @@
-import * as S from "../components/attendance/Attendance.style";
 import React, { useState, useEffect } from "react";
+import * as S from "../components/attendance/Attendance.style";
+import AttendanceHeader from "../components/attendance/AttendacneHeader";
 import SubjectInfo from "../components/attendance/SubjectInfo";
 import AttendanceButton from "../components/attendance/AttendanceButton";
-import AttendanceHeader from "../components/attendance/AttendacneHeader";
+import AttendanceModal from "../components/attendance/AttendanceModal";
+
 export default function Attendance() {
   const [status, setStatus] = useState("");
   const [buttonColor, setButtonColor] = useState("#004098");
   const [currentSubject, setCurrentSubject] = useState("subject1");
+  const [showModal, setShowModal] = useState(false);
 
   const [subjectName, setSubjectName] = useState({
     name: {
@@ -26,7 +29,14 @@ export default function Attendance() {
       subject2: "",
       subject3: "",
       subject4: "",
-    }
+    },
+  });
+
+  const [attendanceStatus, setAttendanceStatus] = useState({
+    "건강과 필라테스 체험 [7]": {},
+    "조직행동론 [7]": {},
+    "삶과 꿈 [N]": {},
+    "기업 윤리 [N]": {},
   });
 
   useEffect(() => {
@@ -54,7 +64,7 @@ export default function Attendance() {
   const CustomDate = () => {
     const today = new Date();
     const date = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일 (${["일", "월", "화", "수", "목", "금", "토"][today.getDay()]})`;
-    const time = `${today.getHours()} : ${today.getMinutes()}`;
+    const time = `${today.getHours()} : ${today.getMinutes().toString().padStart(2, "0")}`;
     return `${date}\n${time}`;
   };
 
@@ -92,39 +102,57 @@ export default function Attendance() {
       setButtonColor("#7C7C7C");
     }
 
+    const week = "5주차"; // 임시, 자동 계산 가능
+    const subjectTitle = subjectName.name[currentSubject];
+
+    setAttendanceStatus((prev) => ({
+      ...prev,
+      [subjectTitle]: {
+        ...prev[subjectTitle],
+        [week]:
+          newAttendanceStatus === "정상 출석"
+            ? "present"
+            : newAttendanceStatus === "지각"
+            ? "late"
+            : newAttendanceStatus === "결석"
+            ? "absent"
+            : "",
+      },
+    }));
+
     setSubjectName((prev) => ({
       ...prev,
       attendance: {
         ...prev.attendance,
         [currentSubject]: newAttendanceStatus,
-      }
+      },
     }));
 
     setStatus(newAttendanceStatus);
   };
 
-
   return (
     <>
-    <AttendanceHeader subjectName={subjectName}/>
-    <S.AttendanceLayout>
-      
-      <S.AttendanceCheck>출석체크</S.AttendanceCheck>
+      <AttendanceHeader subjectName={subjectName} onResultClick={() => setShowModal(true)} />
+      <S.AttendanceLayout>
+        <S.AttendanceCheck>출석체크</S.AttendanceCheck>
+        <SubjectInfo currentSubject={currentSubject} subjectName={subjectName} />
+        <S.Time>{CustomDate()}</S.Time>
+        <AttendanceButton
+          status={status}
+          handleAttendance={handleAttendance}
+          buttonColor={buttonColor}
+        />
+      </S.AttendanceLayout>
 
-      <SubjectInfo
-        currentSubject={currentSubject}
-        subjectName={subjectName}
-      />
-      <S.Time>{CustomDate()}</S.Time>
-
-      <AttendanceButton
-        status={status}
-        handleAttendance={handleAttendance}
-        buttonColor={buttonColor}
-      />
-
-    </S.AttendanceLayout>
+      {showModal && (
+        <AttendanceModal
+          onClose={() => setShowModal(false)}
+          currentSubject={currentSubject}
+          subjectName={subjectName}
+          attendanceStatus={attendanceStatus}
+        />
+      )}
     </>
   );
-  
 }
